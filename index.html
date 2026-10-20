@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English 11: American Literature | Seminar Session: The Absurd Reality</title>
+  <style>
+:root {
+  --primary: #15803d;
+  --primary-dark: #166534;
+  --primary-light: #f0fdf4;
+  --bg-main: #f8fafc;
+  --card-bg: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-main);
+  margin: 0;
+  padding: 20px;
+  color: var(--text-dark);
+}
+
+.container { max-width: 980px; margin: 0 auto; }
+
+.header-card {
+  background: var(--card-bg);
+  padding: 20px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+  border-top: 5px solid var(--primary);
+}
+
+.header-flex { display: flex; justify-content: space-between; align-items: center; }
+.header-left { display: flex; align-items: center; gap: 18px; }
+.logo-box { width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; }
+.logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.stamp-container { width: 110px; height: 110px; position: relative; }
+.stamp-photo {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 60px; height: 60px; border-radius: 50%; object-fit: cover; z-index: 1;
+}
+.stamp-svg {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;
+}
+
+.nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab-btn {
+  flex: 1; padding: 14px; border-radius: 8px; border: 1px solid var(--border);
+  background: #ffffff; font-weight: bold; font-size: 0.95em; cursor: pointer; color: #334155;
+  transition: all 0.2s ease;
+}
+.tab-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+
+.card {
+  background: var(--card-bg); padding: 24px; border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 20px;
+}
+
+.bellringer-box {
+  background: var(--primary-light); border-left: 4px solid var(--primary);
+  padding: 14px 18px; border-radius: 6px; margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.deck-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.std-badge {
+  background: #dcfce7; color: var(--primary-dark); font-size: 0.78em;
+  font-weight: bold; padding: 4px 10px; border-radius: 6px; border: 1px solid #bbf7d0;
+}
+
+.slide-stage {
+  background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;
+  padding: 24px; min-height: 440px;
+}
+
+.slide { display: none; }
+.slide.active { display: block; }
+
+.slide-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; align-items: flex-start; }
+.slide-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 16px;
+}
+
+.slide-visual-card {
+  background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center;
+}
+
+.callout-box {
+  margin-top: 16px; padding: 12px 16px; border-radius: 6px;
+  background: #f0fdf4; border-left: 4px solid var(--primary);
+}
+
+.deck-controls { display: flex; justify-content: space-between; margin-top: 18px; }
+.ctrl-btn {
+  background: var(--primary); color: #ffffff; border: none; padding: 10px 22px;
+  font-weight: bold; border-radius: 6px; cursor: pointer;
+}
+.ctrl-btn:disabled { background: #94a3b8; }
+
+.resource-card {
+  background: #f8fafc; border: 1px solid var(--border); border-left: 4px solid var(--primary);
+  padding: 16px; border-radius: 8px; margin-bottom: 14px; display: flex;
+  justify-content: space-between; align-items: center;
+}
+
+/* Student Checkpoint Form Styling */
+.form-group {
+  margin-bottom: 24px; padding: 20px; background: #f8fafc;
+  border: 1px solid var(--border); border-radius: 8px;
+}
+
+.form-group label.field-label {
+  font-weight: 700; font-size: 1.05em; color: var(--text-dark); margin-bottom: 6px; display: block;
+}
+
+.field-subtext { font-size: 0.93em; color: #334155; margin-bottom: 12px; line-height: 1.45; }
+
+input[type="text"], input[type="date"], textarea, select {
+  width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px;
+  background: #ffffff; color: var(--text-dark); font-size: 0.95em; font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input[type="text"]::placeholder, textarea::placeholder { color: #94a3b8; }
+input[type="text"]:focus, textarea:focus, select:focus {
+  outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.15);
+}
+
+.option-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.option-label {
+  display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px;
+  background: #ffffff; border: 1px solid var(--border); border-radius: 6px; cursor: pointer;
+  font-size: 0.95em; color: var(--text-dark); transition: background 0.15s, border-color 0.15s;
+}
+.option-label:hover { background: #f0fdf4; border-color: var(--primary); }
+.option-label input[type="radio"], .option-label input[type="checkbox"] {
+  margin-top: 3px; width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%; background: var(--primary); color: white; padding: 16px; font-size: 1.05em;
+  font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px;
+  transition: background 0.2s;
+}
+.submit-btn:hover { background: var(--primary-dark); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+.muted { color: var(--text-muted); }
+.italic { font-style: italic; }
+.subtitle { color: var(--text-muted); }
+
+/* Print Optimizations */
+@media print {
+  body { background-color: #fff; color: #000; padding: 0; }
+  .container { max-width: 100%; }
+  .nav-tabs, .deck-controls, .bellringer-box button, .submit-btn, .header-card { display: none !important; }
+  .tab-content { display: block !important; }
+  #deck-tab, #res-tab { display: none !important; }
+  #form-tab { display: block !important; box-shadow: none; border: none; padding: 0; }
+  .form-group { page-break-inside: avoid; border: 1px solid #ccc; background: #fff; }
+  input, textarea, select { border: 1px solid #999 !important; background: #fff !important; }
+}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header-card">
+    <div class="header-flex">
+      <div class="header-left">
+        <div class="logo-box">
+          <img src="chisholm_logo.png" alt="Chisholm Logo" onerror="this.style.display='none'" />
+        </div>
+        <div>
+          <h2>English 11: American Literature</h2>
+          <p class="subtitle">Unit 4: American Realism & Naturalism — Seminar Session: The Absurd Reality (Oct 20)</p>
+        </div>
+      </div>
+
+      <div class="stamp-container">
+        <img class="stamp-photo" src="boehm_photo.jpg" alt="Instructor Photo" onerror="this.style.display='none'" />
+        <img class="stamp-svg" src="boehm-stamp.svg" alt="Classroom Stamp" onerror="this.style.display='none'" />
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('deck')">Slide Deck</button>
+    <button class="tab-btn" onclick="switchTab('res')">Resource Hub</button>
+    <button class="tab-btn" onclick="switchTab('form')">Student Work Checkpoint</button>
+  </div>
+
+  <!-- TAB: DECK -->
+  <div id="deck-tab" class="card tab-content active">
+    <div class="bellringer-box">
+      <div>
+        <strong>Daily Bellringer Writing Prompt</strong>
+        <p id="bellringer-display" class="italic">Loading prompt...</p>
+      </div>
+      <button class="ctrl-btn" onclick="randomizeBellringer()">Shuffle</button>
+    </div>
+
+    <div class="deck-header">
+      <h3>Unit 4: American Realism & Naturalism</h3>
+      <span id="slide-tracker" class="std-badge">Slide 1 of 12</span>
+    </div>
+
+    <div id="slide-stage" class="slide-stage">
+      <!-- Slides injected by script -->
+    </div>
+
+    <div class="deck-controls">
+      <button class="ctrl-btn" id="prev-btn" onclick="moveSlide(-1)" disabled>Previous</button>
+      <button class="ctrl-btn" id="next-btn" onclick="moveSlide(1)">Next</button>
+    </div>
+  </div>
+
+  <!-- TAB: RESOURCE HUB -->
+  <div id="res-tab" class="card tab-content">
+    <h3>Lesson Resource & Reference Hub</h3>
+    <p class="muted">Access official seminar text references below.</p>
+    <div id="resource-list">
+      <!-- Resources injected by script -->
+    </div>
+  </div>
+
+  <!-- TAB: STUDENT WORK CHECKPOINT -->
+  <div id="form-tab" class="card tab-content">
+    <h3>Student Work Checkpoint: Naturalism & Comparative Analysis</h3>
+    <form id="checkpoint-form" onsubmit="event.preventDefault(); window.print();">
+      <!-- Dynamic form fields injected by script -->
+      <button type="submit" class="submit-btn">Print this page and turn into the Red Basket!</button>
+    </form>
+  </div>
+
+</div>
+
+<script>
+let currentSlide = 1;
+let totalSlides = 1;
+let bellringers = [];
+
+const stockImagePool = [
+  'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=300&q=80',
+  'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=300&q=80'
+];
+
+const iconPool = ['🌾', '🏚️', '📜', '⚖️', '🪲', '📝'];
+
+function renderSlides(slides) {
+  const stage = document.getElementById('slide-stage');
+  stage.innerHTML = '';
+
+  slides.forEach((slide, index) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'slide' + (index === 0 ? ' active' : '');
+    wrapper.id = `slide-${index + 1}`;
+
+    const imageUrl = slide.image || stockImagePool[index % stockImagePool.length];
+    const fallbackEmoji = slide.icon || iconPool[index % iconPool.length];
+
+    const visualMediaHTML = `
+      <img src="${imageUrl}" alt="${slide.title}" 
+           style="width:110px;height:110px;object-fit:cover;border-radius:50%;border:3px solid var(--primary);" 
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+      <span style="font-size: 2.8em; display: none; margin-bottom: 8px;">${fallbackEmoji}</span>
+    `;
+
+    wrapper.innerHTML = `
+      <div class="slide-header">
+        <h3 class="slide-title">${slide.title}</h3>
+        <span class="std-badge">${slide.standard || ''}</span>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-body">
+          <ul>
+            ${(slide.bullets || []).map(b => `<li>${b}</li>`).join('')}
+          </ul>
+          ${slide.callout ? `<div class="callout-box"><strong style="color: var(--primary-dark);">Key Takeaway:</strong> ${slide.callout}</div>` : ''}
+        </div>
+        <div class="slide-visual-card">
+          ${visualMediaHTML}
+          ${slide.visual_caption ? `<small style="color: var(--text-muted); display: block; font-size: 0.82em; margin-top: 6px;">${slide.visual_caption}</small>` : ''}
+        </div>
+      </div>
+    `;
+    stage.appendChild(wrapper);
+  });
+}
+
+function initLesson(data) {
+  bellringers = data.bellringers || [];
+  totalSlides = (data.slides || []).length || 1;
+
+  document.getElementById('slide-tracker').innerText = `Slide 1 of ${totalSlides}`;
+
+  renderSlides(data.slides || []);
+  renderResources(data.resources || []);
+  renderForm(data.form || []);
+
+  randomizeBellringer();
+}
+
+function randomizeBellringer() {
+  if (!bellringers.length) return;
+  const idx = Math.floor(Math.random() * bellringers.length);
+  document.getElementById('bellringer-display').innerText = bellringers[idx];
+}
+
+function moveSlide(dir) {
+  const newSlide = currentSlide + dir;
+  if (newSlide < 1 || newSlide > totalSlides) return;
+
+  document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+  currentSlide = newSlide;
+  document.getElementById(`slide-${currentSlide}`).classList.add('active');
+
+  document.getElementById('slide-tracker').innerText = `Slide ${currentSlide} of ${totalSlides}`;
+  document.getElementById('prev-btn').disabled = currentSlide === 1;
+  document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+}
+
+function renderResources(resources) {
+  const container = document.getElementById('resource-list');
+  container.innerHTML = '';
+
+  let resourceList = Array.isArray(resources) ? resources : (resources.items || []);
+
+  resourceList.forEach(res => {
+    const card = document.createElement('div');
+    card.className = 'resource-card';
+
+    const resourceUrl = res.file || res.link || res.url || '#';
+    const resourceTitle = res.label || res.title || res.name || 'Resource Item';
+    const resourceDescription = res.description || res.summary || '';
+
+    card.innerHTML = `
+      <div>
+        <strong>${resourceTitle}</strong><br/>
+        <small class="muted">${resourceDescription}</small>
+      </div>
+      ${resourceUrl !== '#' ? `<a href="${resourceUrl}" target="_blank" class="ctrl-btn">Open Resource</a>` : ''}
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderForm(fields) {
+  const form = document.getElementById('checkpoint-form');
+  const submitBtn = form.querySelector('.submit-btn');
+  form.innerHTML = '';
+
+  const fieldList = Array.isArray(fields) ? fields : [];
+
+  fieldList.forEach((field, idx) => {
+    const group = document.createElement('div');
+    group.className = 'form-group';
+
+    const labelText = field.label || field.question || field.prompt || `Question ${field.field_id || field.id || (idx + 1)}`;
+    const id = `field_${(field.field_id || field.id || idx).toString().replace(/[^\w]/g, '_').toLowerCase()}`;
+    const placeholder = field.placeholder ? field.placeholder.replace(/"/g, '&quot;') : '';
+
+    let subtextHTML = field.subtext ? `<div class="field-subtext">${field.subtext}</div>` : '';
+    let inputHTML = '';
+
+    const type = (field.type || 'short_answer').toLowerCase();
+
+    if (type === 'short_answer' || type === 'short_text' || type === 'text' || type === 'fill_in_blank') {
+      inputHTML = `<input type="text" id="${id}" name="${id}" placeholder="${placeholder || 'Type your answer here...'}" ${field.required !== false ? 'required' : ''} />`;
+    } else if (type === 'date') {
+      inputHTML = `<input type="date" id="${id}" name="${id}" ${field.required !== false ? 'required' : ''} />`;
+    } else if (type === 'long_text' || type === 'quote_citation' || type === 'reflection') {
+      inputHTML = `<textarea id="${id}" name="${id}" rows="4" placeholder="${placeholder || 'Type your detailed response here...'}" ${field.required !== false ? 'required' : ''}></textarea>`;
+    } else if (type === 'multiple_choice' || type === 'true_false') {
+      const options = type === 'true_false' ? ['True', 'False'] : (field.options || []);
+      inputHTML = `<div class="option-list">` + options.map((option, index) => `
+        <label class="option-label">
+          <input type="radio" id="${id}_${index}" name="${id}" value="${option.replace(/"/g, '&quot;')}" ${field.required !== false ? 'required' : ''} />
+          <span>${option}</span>
+        </label>
+      `).join('') + `</div>`;
+    } else if (type === 'checkbox' || type === 'checkbox_group' || type === 'multi_select') {
+      const options = field.options || [];
+      inputHTML = `<div class="option-list">` + options.map((option, index) => `
+        <label class="option-label">
+          <input type="checkbox" id="${id}_${index}" name="${id}[]" value="${option.replace(/"/g, '&quot;')}" />
+          <span>${option}</span>
+        </label>
+      `).join('') + `</div>`;
+    } else if (type === 'rating_scale' || type === 'select_rubric') {
+      const options = field.options || [];
+      const promptMsg = type === 'select_rubric' ? '-- Select Rubric Benchmark Level --' : '-- Select Rating / Benchmark --';
+      inputHTML = `<select id="${id}" name="${id}" ${field.required !== false ? 'required' : ''}>
+        <option value="">${promptMsg}</option>
+        ${options.map(o => `<option value="${o.replace(/"/g, '&quot;')}">${o}</option>`).join('')}
+      </select>`;
+    }
+
+    group.innerHTML = `<label class="field-label" for="${id}">${labelText}</label>${subtextHTML}${inputHTML}`;
+    form.appendChild(group);
+  });
+
+  if (submitBtn) form.appendChild(submitBtn);
+}
+
+function switchTab(key) {
+  const btns = document.querySelectorAll('.tab-btn');
+  const tabs = document.querySelectorAll('.tab-content');
+
+  btns.forEach(btn => btn.classList.remove('active'));
+  tabs.forEach(tab => tab.classList.remove('active'));
+
+  if (key === 'deck') {
+    btns[0].classList.add('active');
+    document.getElementById('deck-tab').classList.add('active');
+  } else if (key === 'res') {
+    btns[1].classList.add('active');
+    document.getElementById('res-tab').classList.add('active');
+  } else if (key === 'form') {
+    btns[2].classList.add('active');
+    document.getElementById('form-tab').classList.add('active');
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => initLesson({
+  "course_title": "English 11: American Literature",
+  "unit": "Unit 4: American Realism & Naturalism",
+  "day_focus": "Seminar Session: The Absurd Reality",
+  "primary_focus": "Juxtaposing agrarian aspirations against the grim reality of itinerant labor.",
+  "core_objectives": "Evaluating descriptive and naturalistic language within the ranch and bunkhouse environments.",
+  "bellringers": [
+    "How does the sparse, functional layout of the ranch bunkhouse reflect the temporary, disposable existence of itinerant laborers?",
+    "In what ways does naturalistic language present human dreams (like owning a piece of land) as vulnerable to indifferent environmental forces?",
+    "Compare how John Steinbeck's bunkhouse and Franz Kafka's trapped settings express the absurdity or alienation of modern economic struggle.",
+    "Quick-write: What sensory details in descriptive prose best convey the harsh realities of agricultural labor during the Great Depression?"
+  ],
+  "slides": [
+    {"title": "Welcome to Seminar: The Absurd Reality", "standard": "MN Standard 11.1.4.4", "bullets": ["Frame seminar inquiry: Juxtaposing romantic agrarian dreams against harsh migrant labor realities.", "Evaluate how Steinbeck and Kafka deconstruct economic self-determination through setting.", "Analyze descriptive naturalistic language within ranch and bunkhouse environments."], "callout": "Naturalism explores how human aspirations are bounded by environmental and economic forces."},
+    {"title": "Agrarian Aspirations vs. Itinerant Reality", "standard": "MN Standard 11.1.4.4", "bullets": ["Define Jeffersonian Agrarianism: The ideal of self-reliance through independent land ownership.", "Examine Great Depression realities: Dust Bowl displacement, wage instability, and endless migrant cycles.", "Contrast George and Lennie's farm dream against the stark, rootless existence of ranch hands."], "callout": "The dream of 'living off the fatta the lan'' acts as both a hopeful sanctuary and an absurd impossibility."},
+    {"title": "Deconstructing the Bunkhouse Environment", "standard": "MN Standard 11.1.4.4", "bullets": ["Examine Steinbeck's opening description of the bunkhouse: unpainted walls, small square windows, burlap mattresses.", "Notice the stark utilitarian objects: Western magazines, playing cards, razor blades, soap.", "Analyze how physical quarters reflect the disposable, transient nature of the workers."], "callout": "The bunkhouse setting is designed for temporary utility, stripping workers of personal permanence."},
+    {"title": "Sensory Diction & Naturalistic Imagery", "standard": "MN Standard 11.1.4.4", "bullets": ["Audit Steinbeck's sensory word choices: sound of heavy boots, dust motes in sunbeams, smell of liniments.", "Identify how animalistic metaphors depict physical labor and human vulnerability.", "Evaluate how naturalistic prose strips romantic sentimentality from agricultural work."], "callout": "Naturalistic diction presents human beings as biological organisms reacting to physical environments."},
+    {"title": "Comparative Lens: Kafka's 'The Metamorphosis'", "standard": "MN Standard 11.1.7.7", "bullets": ["Introduce Franz Kafka's representation of economic absurdity and claustrophobic isolation.", "Examine Gregor Samsa's transformation as a literalization of economic dehumanization.", "Compare Gregor's family bedroom trap to the transient, institutional bunkhouse quarters."], "callout": "Both texts dramatize how economic systems reduce human dignity to mere labor output."},
+    {"title": "Spatial Hierarchies & Social Isolation", "standard": "MN Standard 11.1.4.4", "bullets": ["Analyze Crooks's harness room: Spatial segregation based on racial and physical exclusion.", "Examine Candy's fear of uselessness when his aging dog is euthanized.", "Discuss how physical distance on the ranch enforces social isolation among men living in close quarters."], "callout": "Physical spatial separation on the ranch mirrors rigid economic and social hierarchies."},
+    {"title": "The Illusion of Sanctuary: Riverbank vs. Bunkhouse", "standard": "MN Standard 11.1.4.4", "bullets": ["Contrast the serene, natural opening setting at the Salinas River with the interior bunkhouse.", "Examine how nature offers temporary quietude but remains indifferent to human tragedy.", "Evaluate why George and Lennie return to the riverbank when their dream shatters."], "callout": "Nature acts as a neutral backdrop, indifferent to the destruction of human agrarian dreams."},
+    {"title": "Evaluating Descriptive Language Mechanics", "standard": "MN Standard 11.2.3.3", "bullets": ["Analyze verb choices that emphasize physical wear, repetitive motion, and fatigue.", "Examine adjective selection: 'unpainted', 'long', 'rectangular', 'bare' to establish austerity.", "Synthesize how descriptive mechanics build an atmosphere of inescapable economic routine."], "callout": "Precise, stark diction reinforces the thematic weight of inescapable itinerant routine."},
+    {"title": "Seminar Roundtable: Citation Protocols", "standard": "MN Standard 11.1.4.4", "bullets": ["Cite specific page numbers and quotes when making claims during seminar discussion.", "Cross-reference Steinbeck's bunkhouse descriptions with Kafka's absurd domestic interior.", "Maintain collaborative dialogue using evidence-based agreement and counter-arguments."], "callout": "Grounding seminar claims in textual citations elevates literary critique above opinion."},
+    {"title": "Drafting Comparative Thesis Statements", "standard": "MN Standard 11.2.1.1", "bullets": ["Formula: Although [Agrarian Dream/Economic Duty] promises fulfillment, [Steinbeck/Kafka] uses [Naturalistic Setting/Absurd Transformation] to demonstrate [Dehumanization/Inescapable Trap].", "Verify that thesis claims address both setting descriptions and underlying economic themes.", "Peer-review thesis drafts for analytical precision and defensible evidence."], "callout": "A strong comparative thesis links specific descriptive techniques to broader philosophical themes."},
+    {"title": "Peer Exchange & Textual Evidence Audit", "standard": "MN Standard 11.1.4.4", "bullets": ["Exchange thesis drafts with seminar partners.", "Verify that cited quotes accurately reflect naturalistic diction or absurd economic traps.", "Annotate partners' drafts with suggestions for stronger descriptive vocabulary."], "callout": "Peer critique sharpens textual evidence selection and strengthens comparative claims."},
+    {"title": "Seminar Synthesis & Reflection", "standard": "MN Standard 11.1.4.4", "bullets": ["Synthesize key insights regarding agrarian hopes vs. itinerant realities.", "Reflect on how naturalistic prose exposes the fragility of human self-reliance.", "Prepare seminar notes to inform upcoming comparative essay drafting."], "callout": "Evaluating descriptive setting details deepens our understanding of human resilience."}
+  ],
+  "resources": [
+    {
+      "label": "Metamorphosis PDF",
+      "file": "Metamorphosis.pdf",
+      "description": "Full text of Franz Kafka's 'The Metamorphosis' exploring economic alienation, absurd transformations, and domestic isolation."
+    },
+    {
+      "label": "Of Mice and Men",
+      "file": "Of_Mice_and_Men.pdf",
+      "description": "Full text of John Steinbeck's novella detailing itinerant ranch life, naturalism, and the agrarian dream."
+    }
+  ],
+  "form": [
+    {
+      "field_id": 1,
+      "type": "short_answer",
+      "label": "Student Name & Class Period",
+      "placeholder": "e.g., Jordan Miller - Period 4",
+      "required": true
+    },
+    {
+      "field_id": 2,
+      "type": "multiple_choice",
+      "label": "1. Literary Naturalism & Environmental Determinism (Standard 11.1.4.4)",
+      "subtext": "In naturalistic literature like John Steinbeck's 'Of Mice and Men', how are human ambitions—such as George and Lennie's dream of owning an independent farm—typically portrayed against the setting?",
+      "options": [
+        "A) As guaranteed outcomes that reward hard physical labor and moral perseverance",
+        "B) As fragile, romantic ideals continually threatened and crushed by indifferent economic and environmental forces",
+        "C) As supernatural illusions caused by characters' inability to adapt to modern machinery",
+        "D) As government-subsidized agrarian projects that fail due to bad weather alone"
+      ],
+      "required": true
+    },
+    {
+      "field_id": 3,
+      "type": "fill_in_blank",
+      "label": "2. Sensory Diction in the Bunkhouse Description",
+      "subtext": "Steinbeck opens Chapter 2 with a stark description of the bunkhouse: 'The bunkhouse was a long, rectangular building. Inside, the walls were __________ and the floor unpainted.'",
+      "placeholder": "Enter exact descriptive adjective (e.g., whitewashed)...",
+      "required": true
+    },
+    {
+      "field_id": 4,
+      "type": "checkbox_group",
+      "label": "3. Bunkhouse Architecture & Transient Isolation (Multi-Select)",
+      "subtext": "Select ALL physical details from Steinbeck's description of the bunkhouse that reinforce the temporary, disposable nature of itinerant labor:",
+      "options": [
+        "Burlap sacks filled with straw used as basic, uncustomized mattresses",
+        "Apple boxes nailed over bunks to serve as temporary shelves for personal razors and soap",
+        "Permanent mahogany furniture built directly into the floorboards",
+        "Small square windows that admit sparse light while keeping the interior dark and bare"
+      ],
+      "required": true
+    },
+    {
+      "field_id": 5,
+      "type": "reflection",
+      "label": "4. Comparative Analysis: Steinbeck vs. Kafka (Standard 11.1.7.7)",
+      "subtext": "Compare Gregor Samsa's claustrophobic economic trap in Kafka's 'The Metamorphosis' with the itinerant laborers' rootless existence in Steinbeck's 'Of Mice and Men'. How do both settings express the absurd reduction of human beings to mere economic utility?",
+      "placeholder": "Contrast Gregor's room with the ranch bunkhouse, analyzing how economic pressure strips away personal dignity...",
+      "required": true
+    },
+    {
+      "field_id": 6,
+      "type": "multiple_choice",
+      "label": "5. Power Dynamics and Spatial Segregation",
+      "subtext": "Crooks is forced to sleep in the harness room attached to the barn rather than the main bunkhouse. What does this spatial separation illustrate about the social hierarchy on the ranch?",
+      "options": [
+        "A) Crooks is given special executive privileges as the head horse tender",
+        "B) Institutional racism and physical disability result in extreme spatial and social isolation",
+        "C) The barn is warmer and more luxurious than the main bunkhouse quarters",
+        "D) Bunkhouse rules require all skilled craftsmen to sleep near their animals"
+      ],
+      "required": true
+    },
+    {
+      "field_id": 7,
+      "type": "true_false",
+      "label": "6. Naturalism vs. Romantic Agrarianism",
+      "subtext": "True or False: Naturalistic prose deliberately strips away the romanticized 'Jeffersonian Agrarian' myth of farm life by emphasizing raw physical exhaustion, repetitive manual labor, and economic instability.",
+      "required": true
+    },
+    {
+      "field_id": 8,
+      "type": "reflection",
+      "label": "7. Evaluating Descriptive Language Mechanics (Standard 11.2.3.3)",
+      "subtext": "Select one specific sensory detail or quote from Steinbeck's bunkhouse description (e.g., 'thud of horses' hooves', 'western magazines', 'flies buzzing'). Explain how that specific detail enhances the atmosphere of industrial farm labor.",
+      "placeholder": "Quote specific text evidence and analyze how Steinbeck's word choice builds naturalistic atmosphere...",
+      "required": true
+    },
+    {
+      "field_id": 9,
+      "type": "reflection",
+      "label": "8. Expressive Naturalistic Vignette: Perspective Shift",
+      "subtext": "Imagine entering the bunkhouse at 7:00 PM after a 10-hour day hauling barley bags. Write a 4-sentence naturalistic description focusing on physical sensory weight (smells, exhaustion, shadows, stiffness) and the absurdity of repeating the cycle tomorrow.",
+      "placeholder": "Draft 4 expressive sentences utilizing naturalistic sensory diction to capture itinerant labor exhaustion...",
+      "required": true
+    },
+    {
+      "field_id": 10,
+      "type": "select_rubric",
+      "label": "9. Self-Assessment: Naturalism & Comparative Seminar Mastery",
+      "subtext": "Evaluate your current ability to analyze descriptive naturalistic settings and compare Steinbeck's work with Kafka's absurd realities:",
+      "options": [
+        "Level 4 - Master: I can analyze descriptive language mechanics, evaluate spatial hierarchies, compare Steinbeck with Kafka, and cite text evidence.",
+        "Level 3 - Proficient: I can explain naturalism in the bunkhouse setting, contrast agrarian dreams with migrant realities, and cite quotes.",
+        "Level 2 - Developing: I recognize basic setting details in the bunkhouse but struggle to connect naturalistic diction to economic subtext.",
+        "Level 1 - Novice: I need assistance identifying naturalistic themes and analyzing descriptive setting quotes."
+      ],
+      "required": true
+    }
+  ]
+}));
+</script>
+</body>
+</html>
