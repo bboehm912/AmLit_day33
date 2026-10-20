@@ -111,6 +111,19 @@ body {
   padding: 16px; border-radius: 8px; margin-bottom: 14px; display: flex;
   justify-content: space-between; align-items: center;
 }
+.resource-card.embedded-pdf-resource { display: block; }
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.resource-actions a {
+  flex: 1 1 140px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.3;
+}
 
 /* Student Checkpoint Form Styling */
 .form-group {
@@ -180,7 +193,7 @@ input[type="text"]:focus, textarea:focus, select:focus {
     <div class="header-flex">
       <div class="header-left">
         <div class="logo-box">
-          <img src="chisholm_logo.png" alt="Chisholm Logo" onerror="this.style.display='none'" />
+          <img src="Assets/chisholm_logo.png" alt="Chisholm Logo" onerror="this.style.display='none'" />
         </div>
         <div>
           <h2>English 11: American Literature</h2>
@@ -189,8 +202,8 @@ input[type="text"]:focus, textarea:focus, select:focus {
       </div>
 
       <div class="stamp-container">
-        <img class="stamp-photo" src="boehm_photo.jpg" alt="Instructor Photo" onerror="this.style.display='none'" />
-        <img class="stamp-svg" src="boehm-stamp.svg" alt="Classroom Stamp" onerror="this.style.display='none'" />
+        <img class="stamp-photo" src="Assets/boehm_photo.jpg" alt="Instructor Photo" onerror="this.style.display='none'" />
+        <img class="stamp-svg" src="Assets/boehm-stamp.svg" alt="Classroom Stamp" onerror="this.style.display='none'" />
       </div>
     </div>
   </div>
@@ -230,7 +243,7 @@ input[type="text"]:focus, textarea:focus, select:focus {
   <!-- TAB: RESOURCE HUB -->
   <div id="res-tab" class="card tab-content">
     <h3>Lesson Resource & Reference Hub</h3>
-    <p class="muted">Access official seminar text references below.</p>
+    <p class="muted">Open printable study guides below, then use an authorized edition for each full text.</p>
     <div id="resource-list">
       <!-- Resources injected by script -->
     </div>
@@ -336,6 +349,129 @@ function moveSlide(dir) {
   document.getElementById('next-btn').disabled = currentSlide === totalSlides;
 }
 
+function pdfText(x, y, size, value, bold = false) {
+  const safeText = String(value)
+    .replace(/[^\x20-\x7E]/g, '?')
+    .replace(/\\/g, '\\\\')
+    .replace(/\(/g, '\\(')
+    .replace(/\)/g, '\\)');
+  return `BT /${bold ? 'F2' : 'F1'} ${size} Tf ${x} ${y} Td (${safeText}) Tj ET\n`;
+}
+
+function makePdf(content, width = 612, height = 792) {
+  const objects = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+    `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>`,
+    `<< /Length ${content.length} >>\nstream\n${content}endstream`,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>'
+  ];
+  let pdf = '%PDF-1.4\n';
+  const offsets = [0];
+  objects.forEach((object, index) => {
+    offsets.push(pdf.length);
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+  });
+  const xrefOffset = pdf.length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  offsets.slice(1).forEach(offset => {
+    pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+  });
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return new Blob([pdf], { type: 'application/pdf' });
+}
+
+function createMetamorphosisGuide() {
+  const parts = [];
+  const text = (x, y, size, value, bold = false) => parts.push(pdfText(x, y, size, value, bold));
+  const line = (x1, y1, x2, y2) => parts.push(`${x1} ${y1} m ${x2} ${y2} l S\n`);
+  text(36, 754, 18, 'The Metamorphosis: Absurdity & Alienation', true);
+  text(36, 734, 9, 'Original reading companion | Use with your assigned translation and cite your own copy.');
+  text(36, 706, 11, 'Reading lens', true);
+  text(36, 688, 9, 'Track how an impossible event is narrated in an ordinary, practical world. Notice what receives');
+  text(36, 675, 9, 'attention first: Gregor\'s physical condition, work obligations, family needs, or emotional response.');
+  text(36, 648, 11, 'Evidence tracker', true);
+  text(42, 628, 8, 'SECTION / PAGE', true);
+  text(151, 628, 8, 'WHAT HAPPENS?', true);
+  text(303, 628, 8, 'REACTION / RELATIONSHIP', true);
+  text(465, 628, 8, 'WHAT DOES IT SUGGEST?', true);
+  const columns = [36, 143, 295, 457, 576];
+  const rowY = [606, 535, 464, 393, 322];
+  columns.forEach(x => line(x, 638, x, 322));
+  line(36, 638, 576, 638);
+  rowY.forEach(y => line(36, y, 576, y));
+  for (let row = 0; row < 4; row++) {
+    const top = rowY[row];
+    text(42, top - 17, 8, `Moment ${row + 1}`);
+    for (let y = top - 39; y > rowY[row + 1] + 7; y -= 18) {
+      line(42, y, 137, y);
+      line(149, y, 289, y);
+      line(301, y, 451, y);
+      line(463, y, 570, y);
+    }
+  }
+  text(36, 294, 11, 'Discuss and write', true);
+  text(36, 274, 9, '1. How do work, money, and usefulness shape the way people respond to Gregor?');
+  text(36, 256, 9, '2. Which details make the extraordinary feel routine? What effect does that contrast create?');
+  text(36, 238, 9, '3. How does the family dynamic change? Support your interpretation with a page reference.');
+  text(36, 208, 11, 'Build an evidence-based claim', true);
+  text(36, 189, 9, 'Claim: The story presents alienation as ______________________________________________');
+  text(36, 170, 9, 'Evidence (page / brief quote from your copy): __________________________________________');
+  text(36, 151, 9, 'Reasoning: This detail matters because _________________________________________________');
+  text(36, 111, 8, 'This guide is original instructional material, not a copy of the novella. Use the class edition or an');
+  text(36, 98, 8, 'authorized library copy for the complete text. Project Gutenberg edition: gutenberg.org/ebooks/5200');
+  return makePdf(parts.join(''));
+}
+
+function createMiceAndMenGuide() {
+  const parts = [];
+  const text = (x, y, size, value, bold = false) => parts.push(pdfText(x, y, size, value, bold));
+  const line = (x1, y1, x2, y2) => parts.push(`${x1} ${y1} m ${x2} ${y2} l S\n`);
+  text(36, 754, 18, 'Of Mice and Men: Naturalism & the Agrarian Dream', true);
+  text(36, 734, 9, 'Original reading companion | Add page references from your assigned edition; no novel text is reproduced.');
+  text(36, 706, 11, 'Read like a naturalist', true);
+  text(36, 688, 9, 'Observe how setting, work, social position, and material limits shape choices. Separate what a');
+  text(36, 675, 9, 'character hopes for from what the environment and economic conditions make possible.');
+  text(36, 648, 11, 'Setting-to-theme field notes', true);
+  text(42, 628, 8, 'DETAIL + PAGE', true);
+  text(177, 628, 8, 'SENSORY / SPATIAL EFFECT', true);
+  text(344, 628, 8, 'LABOR / POWER CONTEXT', true);
+  text(470, 628, 8, 'THEME CONNECTION', true);
+  const columns = [36, 169, 336, 462, 576];
+  const rowY = [606, 535, 464, 393, 322];
+  columns.forEach(x => line(x, 638, x, 322));
+  line(36, 638, 576, 638);
+  rowY.forEach(y => line(36, y, 576, y));
+  for (let row = 0; row < 4; row++) {
+    const top = rowY[row];
+    text(42, top - 17, 8, `Detail ${row + 1}`);
+    for (let y = top - 39; y > rowY[row + 1] + 7; y -= 18) {
+      line(42, y, 163, y);
+      line(175, y, 330, y);
+      line(342, y, 456, y);
+      line(468, y, 570, y);
+    }
+  }
+  text(36, 294, 11, 'Compare and interpret', true);
+  text(36, 274, 9, '1. How does the farm dream offer hope? What conditions make that dream fragile?');
+  text(36, 256, 9, '2. How do space and social power shape who belongs or is isolated on the ranch?');
+  text(36, 238, 9, '3. Where do characters have agency, and where are their choices constrained?');
+  text(36, 208, 11, 'Connect to Kafka', true);
+  text(36, 189, 9, 'Both works connect identity with economic roles. Compare one setting detail from each text.');
+  text(36, 170, 9, 'Evidence from Steinbeck (page): _______________________________________________________');
+  text(36, 151, 9, 'Evidence from Kafka (page): ___________________________________________________________');
+  text(36, 132, 9, 'Comparative claim: __________________________________________________________________');
+  text(36, 94, 8, 'This guide is original instructional material, not a copy of the novel. Use your class edition or');
+  text(36, 81, 8, 'authorized library copy. Find a library edition through your school library or Libby / OverDrive.');
+  return makePdf(parts.join(''));
+}
+
+const builtInPdfGenerators = {
+  metamorphosisGuide: createMetamorphosisGuide,
+  miceAndMenGuide: createMiceAndMenGuide
+};
+
 function renderResources(resources) {
   const container = document.getElementById('resource-list');
   container.innerHTML = '';
@@ -345,6 +481,41 @@ function renderResources(resources) {
   resourceList.forEach(res => {
     const card = document.createElement('div');
     card.className = 'resource-card';
+
+    if (res.pdfDocument && builtInPdfGenerators[res.pdfDocument]) {
+      card.classList.add('embedded-pdf-resource');
+      const details = document.createElement('div');
+      const title = document.createElement('strong');
+      const description = document.createElement('small');
+      const pdfUrl = URL.createObjectURL(builtInPdfGenerators[res.pdfDocument]());
+      const actions = document.createElement('div');
+      const openLink = document.createElement('a');
+      const downloadLink = document.createElement('a');
+      const textLink = document.createElement('a');
+      actions.className = 'resource-actions';
+      title.textContent = res.label || 'Study guide PDF';
+      description.className = 'muted';
+      description.textContent = res.description || 'Original companion guide; use an authorized edition for the complete text.';
+      openLink.href = pdfUrl;
+      openLink.target = '_blank';
+      openLink.rel = 'noopener noreferrer';
+      openLink.className = 'ctrl-btn';
+      openLink.textContent = 'Open PDF Guide';
+      downloadLink.href = pdfUrl;
+      downloadLink.download = res.file || `${res.pdfDocument}.pdf`;
+      downloadLink.className = 'ctrl-btn';
+      downloadLink.textContent = 'Download PDF';
+      textLink.href = res.readUrl;
+      textLink.target = '_blank';
+      textLink.rel = 'noopener noreferrer';
+      textLink.className = 'ctrl-btn';
+      textLink.textContent = 'Find Authorized Text';
+      details.append(title, document.createElement('br'), description);
+      actions.append(openLink, downloadLink, textLink);
+      card.append(details, actions);
+      container.appendChild(card);
+      return;
+    }
 
     const resourceUrl = res.file || res.link || res.url || '#';
     const resourceTitle = res.label || res.title || res.name || 'Resource Item';
@@ -466,14 +637,18 @@ window.addEventListener('DOMContentLoaded', () => initLesson({
   ],
   "resources": [
     {
-      "label": "Metamorphosis PDF",
-      "file": "Metamorphosis.pdf",
-      "description": "Full text of Franz Kafka's 'The Metamorphosis' exploring economic alienation, absurd transformations, and domestic isolation."
+      "label": "The Metamorphosis: Absurdity & Alienation Study Guide",
+      "file": "Metamorphosis_Study_Guide.pdf",
+      "pdfDocument": "metamorphosisGuide",
+      "readUrl": "https://www.gutenberg.org/ebooks/5200",
+      "description": "Original reading guide with an evidence tracker and analysis prompts. For the full text, use the linked public-domain edition."
     },
     {
-      "label": "Of Mice and Men",
-      "file": "Of_Mice_and_Men.pdf",
-      "description": "Full text of John Steinbeck's novella detailing itinerant ranch life, naturalism, and the agrarian dream."
+      "label": "Of Mice and Men: Naturalism & the Agrarian Dream Guide",
+      "file": "Of_Mice_and_Men_Analysis_Guide.pdf",
+      "pdfDocument": "miceAndMenGuide",
+      "readUrl": "https://www.overdrive.com/media/181600/of-mice-and-men",
+      "description": "Original companion worksheet for setting, labor, power, and cross-text analysis. Find the complete novel through your school or public library."
     }
   ],
   "form": [
